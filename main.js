@@ -41,8 +41,26 @@ function atualizar(id, produto) {
     if(indiceProduto == -1) return;
     //alterar o produto direto
     listaProdutos[indiceProduto] = produto;
+}
 
+function deletar(id) {
+    let indiceProduto = listaProdutos.findIndex(function(produto) {
+        return (produto.id == id);
+    })
+    if(indiceProduto == -1) return;
+    listaProdutos.splice(indiceProduto, 1);
+}
 
+function pesquisarPorCategoria(categoria) {
+    return listaProdutos.filter( (produto) => produto.categoria == categoria )
+}
+
+function pesquisarPorNomeLike(nome) {
+    return listaProdutos.filter ( (produto) => {
+        const produtoNomeUpper = produto.nome.toUpperCase();
+        const nomeUpper = nome.toUpperCase();
+        return (produtoNomeUpper.search(nomeUpper) >= 0);
+    })
 }
 
 function main() {
@@ -54,7 +72,13 @@ function main() {
 
     console.log("Produto [id=2]: ", buscarPorId(2));
 
+    console.log("Produtos da categoria Alimento", pesquisarPorCategoria("Alimento"));
+
+    console.log("Produtos que possuem a letra 'a'", pesquisarPorNomeLike("a"));
+
     atualizar(4, {nome:"Coca-cola", categoria:"Bebida", preco: 8.5, id:4})
+
+    deletar(7);
 
     console.log(listar());
     
